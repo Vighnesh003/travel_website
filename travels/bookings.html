@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}My Trips – Wanderlust{% endblock %}
+
+{% block extra_css %}
+<style>
+  .bookings-header { padding: 4rem 8vw 2rem; }
+  .bookings-header h1 {
+    font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); font-weight: 300;
+  }
+  .bookings-header p { color: var(--earth); margin-top: 0.3rem; }
+
+  .bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    padding: 0 8vw 4rem;
+  }
+
+  .booking-item {
+    border: 1px solid var(--mist); background: #fff;
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+  }
+  .booking-item:hover { box-shadow: 0 8px 30px rgba(44,31,20,0.1); }
+  .booking-item-top {
+    background: var(--bark); padding: 1.2rem 1.4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .booking-item-top h4 {
+    font-family: var(--font-display); font-size: 1.2rem; font-weight: 400; color: var(--sand);
+  }
+  .status-badge {
+    background: var(--leaf); color: #fff;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.7rem;
+  }
+  .booking-item-body { padding: 1.2rem 1.4rem; }
+  .bi-row {
+    display: flex; justify-content: space-between; font-size: 0.85rem;
+    padding: 0.4rem 0; border-bottom: 1px solid var(--mist);
+  }
+  .bi-row:last-child { border-bottom: none; }
+  .bi-row span:first-child { color: var(--earth); }
+  .bi-total {
+    margin-top: 0.8rem; padding-top: 0.8rem; border-top: 2px solid var(--bark);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bi-total span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--earth); }
+  .bi-total strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--rust); }
+
+  .empty-state {
+    padding: 6rem 8vw; text-align: center;
+  }
+  .empty-state p {
+    font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--mist);
+    margin-bottom: 1.5rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bookings-header fade-up">
+  <p style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--rust);margin-bottom:0.4rem">✦ Your Adventures</p>
+  <h1>My Trips</h1>
+  <p>{{ bookings|length }} booking{% if bookings|length != 1 %}s{% endif %} found</p>
+</div>
+
+{% if bookings %}
+<div class="bookings-grid">
+  {% for b in bookings %}
+  <div class="booking-item fade-up" style="animation-delay:{{ loop.index0 * 0.08 }}s">
+    <div class="booking-item-top">
+      <h4>{{ b.destination }}</h4>
+      <span class="status-badge">{{ b.status }}</span>
+    </div>
+    <div class="booking-item-body">
+      <div class="bi-row"><span>Traveller</span><span>{{ b.name }}</span></div>
+      <div class="bi-row"><span>Email</span><span>{{ b.email }}</span></div>
+      <div class="bi-row"><span>Travel Date</span><span>{{ b.travel_date }}</span></div>
+      <div class="bi-row"><span>Guests</span><span>{{ b.guests }}</span></div>
+      <div class="bi-row"><span>Reference</span><span>#WL-{{ "%04d"|format(b.id) }}</span></div>
+      <div class="bi-row"><span>Booked On</span><span>{{ b.booked_at }}</span></div>
+      <div class="bi-total">
+        <span>Total</span>
+        <strong>${{ "{:,}".format(b.total) }}</strong>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state fade-up">
+  <p>No trips booked yet.</p>
+  <a href="/" class="btn btn-primary">Explore Destinations</a>
+</div>
+{% endif %}
+{% endblock %}

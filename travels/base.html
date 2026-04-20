@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Wanderlust – Curated Travel Experiences{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sand:   #f5efe6;
+      --cream:  #faf7f2;
+      --bark:   #2c1f14;
+      --earth:  #7a5c3f;
+      --rust:   #c2622d;
+      --gold:   #e8b84b;
+      --mist:   #d4cbc0;
+      --leaf:   #4a6741;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius: 2px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--bark);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem; font-weight: 300; letter-spacing: 0.08em;
+      color: var(--sand); text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--mist); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── FLASH ── */
+    .flash { padding: 0.75rem 5vw; background: var(--rust); color: #fff; font-size: 0.85rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bark); color: var(--mist);
+      padding: 3rem 5vw; margin-top: 6rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: 0.82rem; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── UTILITIES ── */
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 2rem;
+      font-family: var(--font-body); font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: all var(--transition);
+    }
+    .btn-primary {
+      background: var(--rust); color: #fff;
+    }
+    .btn-primary:hover { background: #a8521f; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: var(--bark);
+      border: 1.5px solid var(--bark);
+    }
+    .btn-outline:hover { background: var(--bark); color: var(--cream); }
+    .btn-gold {
+      background: var(--gold); color: var(--bark);
+    }
+    .btn-gold:hover { background: #d4a73a; }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid var(--earth); color: var(--earth);
+      border-radius: var(--radius);
+    }
+
+    .stars { color: var(--gold); font-size: 0.85rem; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">Wander<span>lust</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Destinations</a></li>
+      <li><a href="/my-bookings">My Bookings</a></li>
+    </ul>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+
+  <footer>
+    <div>
+      <p style="font-family:var(--font-display);font-size:1.3rem;font-weight:300;color:var(--sand)">Wanderlust</p>
+      <p style="margin-top:0.3rem">Curated journeys for the discerning traveller.</p>
+    </div>
+    <p>© 2024 Wanderlust Travel Co. &nbsp;|&nbsp; <a href="#">Privacy</a> &nbsp;|&nbsp; <a href="#">Terms</a></p>
+  </footer>
+</body>
+</html>

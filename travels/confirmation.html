@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Booking Confirmed – Wanderlust{% endblock %}
+
+{% block extra_css %}
+<style>
+  .confirm-wrap {
+    max-width: 620px; margin: 5rem auto; padding: 0 2rem;
+    text-align: center;
+  }
+  .confirm-icon {
+    width: 80px; height: 80px; background: var(--leaf);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 2rem;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .confirm-title {
+    font-family: var(--font-display); font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem;
+  }
+  .confirm-sub { color: var(--earth); margin-bottom: 2.5rem; }
+
+  .ticket {
+    background: var(--sand); border: 1px solid var(--mist);
+    text-align: left;
+    position: relative; overflow: hidden;
+  }
+  .ticket::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+    background: var(--gold);
+  }
+  .ticket-header {
+    padding: 1.5rem 1.5rem 1rem 2rem;
+    border-bottom: 1px dashed var(--mist);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ticket-header h4 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; }
+  .ticket-badge {
+    background: var(--leaf); color: #fff;
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+  }
+  .ticket-body { padding: 1.2rem 1.5rem 1.2rem 2rem; }
+  .ticket-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.88rem; padding: 0.45rem 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .ticket-row:last-child { border-bottom: none; }
+  .ticket-row span:first-child { color: var(--earth); }
+  .ticket-row strong { color: var(--bark); }
+  .ticket-footer {
+    padding: 1rem 1.5rem 1.5rem 2rem;
+    border-top: 1px dashed var(--mist);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ticket-total { font-family: var(--font-display); font-size: 1.8rem; color: var(--rust); }
+  .ticket-id { font-size: 0.72rem; color: var(--mist); }
+
+  .confirm-actions { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="confirm-wrap fade-up">
+  <div class="confirm-icon">✓</div>
+  <h1 class="confirm-title">You're All Set!</h1>
+  <p class="confirm-sub">Your journey to <strong>{{ booking.destination }}</strong> has been confirmed.<br>A confirmation will be sent to <strong>{{ booking.email }}</strong>.</p>
+
+  <div class="ticket">
+    <div class="ticket-header">
+      <div>
+        <p style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--earth);margin-bottom:0.2rem">Booking Reference</p>
+        <h4>{{ booking.destination }}</h4>
+      </div>
+      <span class="ticket-badge">{{ booking.status }}</span>
+    </div>
+    <div class="ticket-body">
+      <div class="ticket-row"><span>Traveller</span><strong>{{ booking.name }}</strong></div>
+      <div class="ticket-row"><span>Email</span><strong>{{ booking.email }}</strong></div>
+      <div class="ticket-row"><span>Phone</span><strong>{{ booking.phone }}</strong></div>
+      <div class="ticket-row"><span>Travel Date</span><strong>{{ booking.travel_date }}</strong></div>
+      <div class="ticket-row"><span>Guests</span><strong>{{ booking.guests }} Person{% if booking.guests > 1 %}s{% endif %}</strong></div>
+      <div class="ticket-row"><span>Booked On</span><strong>{{ booking.booked_at }}</strong></div>
+    </div>
+    <div class="ticket-footer">
+      <div>
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--earth)">Total Paid</p>
+        <p class="ticket-total">${{ "{:,}".format(booking.total) }}</p>
+      </div>
+      <p class="ticket-id">Booking #WL-{{ "%04d"|format(booking.id) }}</p>
+    </div>
+  </div>
+
+  <div class="confirm-actions">
+    <a href="/" class="btn btn-outline">Explore More Destinations</a>
+    <a href="/my-bookings" class="btn btn-primary">View All My Trips</a>
+  </div>
+</div>
+{% endblock %}
