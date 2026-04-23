@@ -1,10 +1,7 @@
-version: "3.9"
-
+version: '3'
 services:
-  wanderlust:
+  web:
     build: .
+    container_name: myapp
     ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=production
-    restart: unless-stopped
+      - "80:80"
